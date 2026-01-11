@@ -2,35 +2,33 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>Viewer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>عرض الشرائح</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div style="padding:20px">
-    <a href="index.html">⬅ رجوع</a>
-    <h2 id="title">جاري فتح العرض...</h2>
-    <p id="content"></p>
+  <div style="padding:16px">
+    <a href="./index.html">⬅ رجوع</a>
+    <h2 id="title">جاري تحميل العرض...</h2>
   </div>
 
+  <!-- هنا سنعرض المحتوى الحقيقي -->
+  <div id="app" style="padding:16px"></div>
+
   <script>
+    // نخزن id في متغير عام ليستعمله app.js
     const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
-
-    const title = document.getElementById("title");
-    const content = document.getElementById("content");
-
-    if (!id) {
-      title.textContent = "❌ لا يوجد عرض";
-      content.textContent = "الرابط يجب أن يحتوي على ?id=...";
-    } else {
-      title.textContent = "✅ تم فتح العرض";
-      content.textContent = "ID = " + id;
-    }
+    window.PRESENTATION_ID = params.get("id");
+    document.getElementById("title").textContent = window.PRESENTATION_ID
+      ? ("عرض: " + window.PRESENTATION_ID)
+      : "❌ لا يوجد id في الرابط";
   </script>
 
+  <!-- نشغل نفس سكريبت الموقع -->
+  <script src="app.js"></script>
 </body>
 </html>
+
 
 
