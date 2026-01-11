@@ -1,0 +1,181 @@
+/* بسيط، نظيف، وداعم لـ RTL */
+:root{
+  --bg:#0b1020;
+  --card:#111a33;
+  --text:#eef2ff;
+  --muted:#b9c2ff;
+  --border:rgba(255,255,255,.14);
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+  --radius:16px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(900px 500px at 85% 15%, rgba(105,150,255,.25), transparent 60%),
+    radial-gradient(900px 500px at 15% 85%, rgba(51,235,181,.18), transparent 60%),
+    var(--bg);
+}
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:10;
+  backdrop-filter: blur(10px);
+  background: rgba(11,16,32,.55);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 18px;
+}
+
+.brand{display:flex; gap:14px; align-items:center; max-width:1100px; margin:0 auto;}
+.logo{
+  width:54px; height:54px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  display:grid; place-items:center;
+  box-shadow: var(--shadow);
+  background: linear-gradient(145deg, rgba(255,255,255,.10), rgba(255,255,255,.02));
+}
+.logo svg{width:34px; height:34px; color:#c7d2fe}
+
+.title{font-weight:800; font-size:18px; letter-spacing:.2px}
+.subtitle{color:var(--muted); font-size:13px; margin-top:4px}
+
+.container{max-width:1100px; margin:0 auto; padding:18px;}
+.cards{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap:14px;
+  margin-top:10px;
+}
+
+.card{
+  padding:16px;
+  border-radius: var(--radius);
+  background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+  border:1px solid var(--border);
+  box-shadow: var(--shadow);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.card h3{margin:0; font-size:16px}
+.card p{margin:0; color:var(--muted); font-size:13px; line-height:1.6}
+
+.row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:8px;}
+.badge{
+  font-size:12px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  color:var(--muted);
+  background: rgba(255,255,255,.03);
+}
+
+.btn{
+  appearance:none;
+  border:1px solid var(--border);
+  background: rgba(199,210,254,.12);
+  color: var(--text);
+  padding:10px 12px;
+  border-radius: 12px;
+  cursor:pointer;
+  font-weight:700;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.btn:hover{background: rgba(199,210,254,.18)}
+.btn svg{width:16px; height:16px}
+
+.note{
+  margin-top:16px;
+  padding:14px 16px;
+  border-radius: var(--radius);
+  border:1px dashed rgba(255,255,255,.22);
+  background: rgba(255,255,255,.03);
+}
+.note h2{margin:0 0 6px 0; font-size:14px}
+.note p{margin:0; color:var(--muted); line-height:1.7; font-size:13px}
+
+/* Viewer */
+.back{
+  color:var(--text);
+  text-decoration:none;
+  font-weight:800;
+  border:1px solid var(--border);
+  padding:8px 10px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.03);
+}
+.back:hover{background: rgba(255,255,255,.06)}
+
+.viewer-title{font-weight:900; margin-inline:12px; opacity:.95}
+.spacer{flex:1}
+
+.viewer{max-width:1200px; margin:0 auto; padding:16px;}
+.stage{
+  position:relative;
+  display:grid;
+  grid-template-columns: 52px 1fr 52px;
+  gap:10px;
+  align-items:center;
+}
+.slide{
+  margin:0;
+  border-radius: var(--radius);
+  border:1px solid var(--border);
+  background: rgba(255,255,255,.02);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+}
+.slide img{
+  width:100%;
+  height:auto;
+  display:block;
+}
+.caption{
+  padding:10px 12px;
+  color: var(--muted);
+  font-size:12px;
+  border-top:1px solid var(--border);
+  background: rgba(11,16,32,.35);
+}
+.nav{
+  height:52px; width:52px;
+  border-radius: 16px;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,.04);
+  color: var(--text);
+  font-size:34px;
+  cursor:pointer;
+  display:grid; place-items:center;
+}
+.nav:hover{background: rgba(255,255,255,.07)}
+.nav:disabled{opacity:.35; cursor:not-allowed}
+
+.thumbs{
+  margin-top:12px;
+  display:flex;
+  gap:10px;
+  overflow:auto;
+  padding-bottom:8px;
+}
+.thumb{
+  flex:0 0 auto;
+  width:150px;
+  border-radius: 14px;
+  border:1px solid var(--border);
+  overflow:hidden;
+  cursor:pointer;
+  background: rgba(255,255,255,.02);
+  padding:0;
+}
+.thumb img{width:100%; height:auto; display:block}
+.thumb.active{outline: 2px solid rgba(199,210,254,.8)}

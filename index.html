@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>تحويل عروض SVT إلى HTML</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 64 64" role="img" aria-label="أيقونة علوم">
+          <path d="M26 6h12v4l-2 2v14.5l14.6 25.3A8 8 0 0 1 43.7 60H20.3a8 8 0 0 1-6.9-11.8L28 26.5V12l-2-2V6z" fill="currentColor" opacity="0.18"/>
+          <path d="M24 10h16M28 26h8" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.75"/>
+          <path d="M20 44h24" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.45"/>
+        </svg>
+      </div>
+      <div>
+        <div class="title">عروض SVT — نسخة HTML</div>
+        <div class="subtitle">افتح أي ملف، ثم تنقّل بين الشرائح (التالي/السابق) أو عبر الصور المصغّرة.</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="cards" id="cards"></section>
+
+    <section class="note">
+      <h2>ملاحظة</h2>
+      <p>
+        هذه النسخة تعتمد على <strong>صور الشرائح</strong> المُستخرَجة من ملفات PowerPoint، لذلك الشكل يكون مطابقًا تقريبًا للعرض الأصلي.
+        كما أضفتُ بعض <strong>أيقونات SVG مولّدة</strong> (بدون حقوق) لواجهة أكثر جاذبية.
+      </p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
