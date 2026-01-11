@@ -1,34 +1,175 @@
 <!doctype html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>عرض الشرائح</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>عارض العروض</title>
+
+<style>
+/* ====== CSS (مدمج) ====== */
+:root{
+  --bg:#0b1020;
+  --card:#111a33;
+  --text:#eef2ff;
+  --muted:#b9c2ff;
+  --border:rgba(255,255,255,.14);
+  --radius:16px;
+}
+body{
+  margin:0;
+  font-family: system-ui, Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+a{color:var(--text); text-decoration:none}
+.top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px;
+  border-bottom:1px solid var(--border);
+}
+.viewer{
+  max-width:1200px;
+  margin:auto;
+  padding:16px;
+}
+.stage{
+  display:grid;
+  grid-template-columns:60px 1fr 60px;
+  gap:10px;
+  align-items:center;
+}
+.nav{
+  height:60px;
+  font-size:32px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:#1a2550;
+  color:white;
+  cursor:pointer;
+}
+.nav:disabled{opacity:.3}
+.slide{
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+.slide img{width:100%; display:block}
+.caption{
+  padding:10px;
+  font-size:13px;
+  color:var(--muted);
+  border-top:1px solid var(--border);
+}
+.thumbs{
+  display:flex;
+  gap:10px;
+  overflow:auto;
+  margin-top:12px;
+}
+.thumb{
+  width:140px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  cursor:pointer;
+}
+.thumb img{width:100%}
+.thumb.active{outline:2px solid #8aa2ff}
+</style>
 </head>
+
 <body>
 
-  <div style="padding:16px">
-    <a href="./index.html">⬅ رجوع</a>
-    <h2 id="title">جاري تحميل العرض...</h2>
+<div class="top">
+  <a href="index.html">⬅ رجوع</a>
+  <strong id="title">تحميل...</strong>
+</div>
+
+<div class="viewer">
+  <div class="stage">
+    <button class="nav" id="prev">›</button>
+
+    <div class="slide">
+      <img id="slideImg">
+      <div class="caption" id="caption"></div>
+    </div>
+
+    <button class="nav" id="next">‹</button>
   </div>
 
-  <!-- هنا سنعرض المحتوى الحقيقي -->
-  <div id="app" style="padding:16px"></div>
+  <div class="thumbs" id="thumbs"></div>
+</div>
 
-  <script>
-    // نخزن id في متغير عام ليستعمله app.js
-    const params = new URLSearchParams(window.location.search);
-    window.PRESENTATION_ID = params.get("id");
-    document.getElementById("title").textContent = window.PRESENTATION_ID
-      ? ("عرض: " + window.PRESENTATION_ID)
-      : "❌ لا يوجد id في الرابط";
-  </script>
+<script>
+/* ====== DATA (manifest مدموج) ====== */
+const MANIFEST = {
+  presentations: [
+    {
+      id: "2-svt-t-che-2-p-riode-2-1ac",
+      title: "2-SVT - Tâche -2-Période-2-1AC",
+      slides: Array.from({length:22},(_,i)=>`assets/2-SVT-Tâche-2-Période-2-1AC/slide-${String(i+1).padStart(2,'0')}.png`)
+    },
+    {
+      id: "3-svt-ta-che-3-p-riode-2-1ac",
+      title: "3-SVT - Tâche -3 -Période-2-1AC",
+      slides: Array.from({length:36},(_,i)=>`assets/3-SVT-Tâche-3 -Période-2-1AC/slide-${String(i+1).padStart(2,'0')}.png`)
+    },
+    {
+      id: "4-svt-ta-che-4-p-riode-2-1ac",
+      title: "4-SVT - Tâche -4 -Période-2-1AC",
+      slides: Array.from({length:27},(_,i)=>`assets/4-SVT-Tâche-4 -Période-2-1AC/slide-${String(i+1).padStart(2,'0')}.png`)
+    }
+  ]
+};
 
-  <!-- نشغل نفس سكريبت الموقع -->
-  <script src="app.js"></script>
+/* ====== JS (مدمج) ====== */
+const qs = n => new URLSearchParams(location.search).get(n);
+const id = qs("id");
+const pres = MANIFEST.presentations.find(p=>p.id===id);
+
+if(!pres){
+  document.getElementById("title").textContent = "❌ العرض غير موجود";
+  throw "";
+}
+
+document.getElementById("title").textContent = pres.title;
+
+let index = Number(qs("s")||0);
+const img = document.getElementById("slideImg");
+const cap = document.getElementById("caption");
+const thumbs = document.getElementById("thumbs");
+
+function show(i){
+  index=i;
+  img.src = pres.slides[i];
+  cap.textContent = `الشريحة ${i+1} / ${pres.slides.length}`;
+  [...thumbs.children].forEach((t,k)=>t.classList.toggle("active",k===i));
+
+  const u = new URL(location);
+  u.searchParams.set("id",pres.id);
+  u.searchParams.set("s",i);
+  history.replaceState({},'',u);
+}
+
+pres.slides.forEach((s,i)=>{
+  const b=document.createElement("div");
+  b.className="thumb";
+  b.innerHTML=`<img src="${s}">`;
+  b.onclick=()=>show(i);
+  thumbs.appendChild(b);
+});
+
+document.getElementById("prev").onclick=()=>show(Math.max(0,index-1));
+document.getElementById("next").onclick=()=>show(Math.min(pres.slides.length-1,index+1));
+
+show(index);
+</script>
+
 </body>
 </html>
+
 
 
 
