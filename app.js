@@ -75,6 +75,7 @@ async function renderViewer(){
   if(!viewerTitle || !slideImg || !thumbs || !prevBtn || !nextBtn) return;
 
   const id = qs('id');
+  const id = window.PRESENTATION_ID || new URLSearchParams(location.search).get("id");
   const data = await loadManifest();
   const p = data.presentations.find(x=>x.id === id) || data.presentations[0];
 
